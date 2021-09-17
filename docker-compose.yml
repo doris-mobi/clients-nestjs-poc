@@ -1,14 +1,17 @@
-version: "3"
+version: '3'
+
+networks:
+  api:
 
 services:
   clients_dev:
     container_name: clients_dev
-    image: clients_dev:1.0.0
+    image: clients_dev:1
     build:
       context: .
-      target: develop
+      target: dev
       dockerfile: ./Dockerfile
-    command: yarn start:debug
+    command: yarn start:dev
     ports:
       - 3000:3000
     volumes:
@@ -16,7 +19,9 @@ services:
     depends_on:
       - postgres
     extra_hosts:
-      - "host.docker.internal:172.17.0.1"
+      - 'host.docker.internal:172.17.0.1'
+    networks:
+      - api
 
   postgres:
     container_name: postgres
@@ -27,4 +32,7 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+    networks:
+      - api

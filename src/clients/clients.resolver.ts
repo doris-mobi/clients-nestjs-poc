@@ -12,6 +12,7 @@ export class ClientsResolver {
 
   @Mutation(() => Client)
   createClient(@Args('client') client: CreateClientInput) {
+    console.log({ client });
     return this.clientsService.create(client);
   }
 
